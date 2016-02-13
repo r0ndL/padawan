@@ -23,13 +23,13 @@
 #define drivespeed1  50 //set these 3 to whatever speeds work for you. 0=stop, 127=full speed.
 #define drivespeed2 85  //Recommend beginner: 50 to 75, experienced: 100 to 127, I like 100.
 #define drivespeed3 127 //Set to 0 if you only want 2 speeds.                                             
-#define turnspeed 50    // the higher this number the faster it will spin in place, lower - easier to controll. 
+#define turnspeed 50    // the higher this number the faster it will spin in place, lower - easier to control. 
                         // Recommend beginner: 40 to 50, experienced: 50 $ up, I like 75                       
 #define domespeed 127   // If using a speed controller for the dome, sets the top speed
                         // Use a number up to 127 for serial                       
-#define ramping 5       // Ramping- the lower this number the longer R2 will take to speedup or slow down,
-                        // change this by incriments of 1
-#define domecompensation 0  // For controllers that centering problems, causing slight dome drift in one direction
+#define ramping 5       // Ramping- the lower this number the longer R2 will take to speed-up or slow down,
+                        // change this by increments of 1
+#define domecompensation 0  // For controllers with centering problems, causing slight dome drift in one direction
 #define drivecompensation 0  // use the lowest number with no drift
                              // (this sets the Sabertooth's Deadband and will persist between restarts)
                              // Motor powers in the range [-deadband, deadband] will be considered in the deadband,
@@ -52,11 +52,11 @@
 #define AUDIO2  2 // 0=No secondary audio player
                   // 1=SparkfunMP3 Trigger
                   // 2=BY8001-16P module
-#define SNDSTRT   52 // Sound number to play on startup
+#define SNDSTRT   52 // Sound number to play on start-up
 #define SNDDRVON  52 // Sound number to play when foot drives enabled
 #define SNDDRVOFF 53 // Sound number to play when foot drives disabled
 #define SNDAUTO   52 // Sound number to play when Dome Auto Mode engaged
-byte vol = 25; // for BY8001 30 = full volume, 0 off . for MP3 Tirgger 0 = full volume, 255 off 
+byte vol = 25; // for BY8001 30 = full volume, 0 off . for MP3 Trigger 0 = full volume, 255 off 
 
 
 // AUTO DOME MODE OPTIONS...
@@ -66,12 +66,12 @@ byte vol = 25; // for BY8001 30 = full volume, 0 off . for MP3 Tirgger 0 = full 
 #define AUTOTIM 3000  // Maximum length of time dome motor will spin during Auto Dome Mode
 
 // IS THERE AN 12C DISPLAY CONNECTED?
-#define DISPLAY 2 // 1 for 128x64 OLED display (labeled Heltec.cn)
+#define DISPLAY 2 // 1 for 128x64 OLED display (labelled Heltec.cn)
                   // 2 for 16x2 character LCD. Default I2C address is #0 (A0-A2 not jumpered), can be changed in LiquidWTI below
                   
 // VOLTAGE/BATTERY METER
 #define VRATION 2.4  //if using 24K and 10K resistors our ratio is 2.4
-#define VOLTPIN A3   //the pin used to meature our main battery voltage
+#define VOLTPIN A3   //the pin used to measure our main battery voltage
 float voltage;
 
 // DEFINE WHICH SOUNDS ARE MUSIC OR BACKGROUND FX HERE...
@@ -79,7 +79,7 @@ float voltage;
 #include <avr/pgmspace.h> //to save SRAM, this stuff all gets stored in flash memory
 const byte muzak[]PROGMEM = { 5,9,10,11,12 }; //see Sound File References at end of sketch
 const byte vLevels[]PROGMEM = { 255,100,80,60,40,20,10,0 }; //volume levels for SparkFun MP3 Trigger, 255 is off, over 100 is almost inaudible
-// for BY8001-16P 30 = full volume, 0 off . for MP3 Tirgger 0 = full volume, 255 off 
+// for BY8001-16P 30 = full volume, 0 off . for MP3 Trigger 0 = full volume, 255 off 
 
 // Include whichever audio libraries are needed...
 #include <SoftwareSerial.h>
@@ -165,7 +165,7 @@ int turnnum = 0;
 #include <usbhub.h> //might be needed for some bluetooth dongles
 #endif
 
-// Satisfy IDE, which only needs to see the include statment in the ino.
+// Satisfy IDE, which only needs to see the include statement in the ino.
 #ifdef dobogusinclude
 #include <spi4teensy3.h>
 #endif
@@ -231,7 +231,7 @@ void setup() {
   setVolume(vol);
   playSound(SNDSTRT);
        
-    /*r0n_dL - Commented out this section because receiving error if selectin PS2 Controller
+    /*r0n_dL - Commented out this section because receiving error if selected PS2 Controller
         
         while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
         if (Usb.Init() == -1) {
@@ -245,7 +245,7 @@ void setup() {
         
         */
     
-        int mp3BaudeRate = 9600; // Set the baude rate for the BY8x01-16P sound module
+        int mp3BaudeRate = 9600; // Set the baud rate for the BY8x01-16P sound module
     
         MP3Serial1.begin(mp3BaudeRate);
         MP3Serial2.begin(mp3BaudeRate);
@@ -258,7 +258,7 @@ void setup() {
                                 //       the baud rate instead of detecting with autobaud.
                                 //
                                 //       If you have a 2x12, 2x25 V2, 2x60 or SyRen 50, you can remove
-                                //       the autobaud line and save yourself two seconds of startup delay.
+                                //       the autobaud line and save yourself two seconds of start-up delay.
         ST.setTimeout(950);
         ST.drive(0); // The Sabertooth won't act on mixed mode packet serial commands until
         ST.turn(0);  // it has received power levels for BOTH throttle and turning, since it
@@ -276,7 +276,7 @@ void playSound(int soundNumber) {
     lcd.setCursor(0, 0); 
     lcd.print("Snd"+String(soundNumber));
   #endif
-  #if (AUDIO2>0) //dual audio players are configured, see if this shound is a background fx
+  #if (AUDIO2>0) //dual audio players are configured, see if this sound is a background fx
     byte sec=0;
     for (byte i = 0; i < sizeof(muzak); i++) {
       if (soundNumber==muzak[i]) {
@@ -297,7 +297,7 @@ void playSound(int soundNumber) {
 
 ///////function to set volume levels
 void setVolume(byte vol) {
-  // for BY8001 30 = full volume, 0 off . for MP3 Tirgger 0 = full volume, 255 off 
+  // for BY8001 30 = full volume, 0 off . for MP3 Trigger 0 = full volume, 255 off 
   #if (AUDIO1==2)
     priPlayer.setVolume(vol); //set BY8001 volume
   #else
