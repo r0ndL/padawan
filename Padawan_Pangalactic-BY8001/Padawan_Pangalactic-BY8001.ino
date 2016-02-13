@@ -82,6 +82,13 @@ const byte vLevels[]PROGMEM = { 255,100,80,60,40,20,10,0 }; //volume levels for 
 // for BY8001-16P 30 = full volume, 0 off . for MP3 Tirgger 0 = full volume, 255 off 
 
 // Include whichever audio libraries are needed...
+#include <SoftwareSerial.h>
+
+SoftwareSerial MP3Serial1(8, A1); // SoftwareSerial port assignments (RX, TX) to communicate with sound module 1
+
+SoftwareSerial MP3Serial2(8, 6);  // SoftwareSerial port assignments (RX, TX) to communicate with sound module 2
+
+
 #if (AUDIO1==2)
   //settings for BY8001-16P module...
   #include <BY8x0116Pv2.h>
@@ -114,17 +121,12 @@ const byte vLevels[]PROGMEM = { 255,100,80,60,40,20,10,0 }; //volume levels for 
 #endif
 
 #include <Sabertooth.h>
-#include <SoftwareSerial.h>
 
 SoftwareSerial STSerial(8, 4); //create soft serial port for the Sabertooth using pin 4
 Sabertooth ST(128, STSerial);
 
 SoftwareSerial SyRSerial(8, 3); //create soft serial port for the Syren using pin 3
 Sabertooth SyR(128, SyRSerial); 
-
-SoftwareSerial MP3Serial1(8, A1); // SoftwareSerial port assignments (RX, TX) to communicate with sound module 1
-
-SoftwareSerial MP3Serial2(8, 6);  // SoftwareSerial port assignments (RX, TX) to communicate with sound module 2
 
 byte drive = 0; // 0 = drive motors off ( right stick disabled )
 byte automate = 0;
